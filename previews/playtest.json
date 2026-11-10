@@ -24,12 +24,12 @@
     {
       "name": "wrong Q3 shows citation",
       "pass": true,
-      "detail": "❌ 答錯了！正確係：互相尊重，並保持適當界線\n💡 與異性朋友相處要互相尊重，並注意適當界線。\n📚 翻書：作業 p.9"
+      "detail": "❌ 答錯了！正確係：因人而異\n💡 生長發育的速度因人而異，不必跟別人比較。\n📚 翻書：課本 p.25"
     },
     {
       "name": "wrong Q8 shows citation",
       "pass": true,
-      "detail": "❌ 答錯了！正確係：有助自己成長\n💡 自我認識有助成長，讓我們更清楚自己的方向。\n📚 翻書：課本 p.49"
+      "detail": "❌ 答錯了！正確係：父母、老師或醫護人員\n💡 向可信任的成年人或專業人員求證，才能得到正確的科學知識。\n📚 翻書：課本 p.25"
     },
     {
       "name": "at least one kill animation",
