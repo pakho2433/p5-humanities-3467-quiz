@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="icon" href="data:,">
+  <title>五上人文《處變不驚》打怪溫習</title>
+  <link rel="stylesheet" href="style.css?v=20261111v1">
+</head>
+<body>
+<button type="button" id="muteBtn" class="mute" aria-label="靜音" title="靜音">🔊</button>
+<main id="app">
+  <section id="home" class="card">
+    <div class="logo-wrap" aria-hidden="true">
+      <canvas id="homeHero" width="96" height="96"></canvas>
+    </div>
+    <h1>五上人文《處變不驚》打怪溫習</h1>
+    <p class="sub">第3、4、6、7課　·　答啱就撃殺怪獸！</p>
+    <p class="hint">《處變不驚》溫習　·　每題有頁數可翻書</p>
+    <button class="big start" id="startBtn" type="button">⚔️ 開始冒險</button>
+    <p class="ver-chip" id="verChip">畫面 v1 · 20261111v1</p>
+    <p id="placeNote" class="place-note hide">題目暫定，待課本內容更新</p>
+  </section>
+
+  <section id="battle" class="battle-wrap hide" aria-label="打怪問答">
+    <div class="hud">
+      <button type="button" id="homeBtn" class="hud-btn" title="返回">🏠</button>
+      <div id="hearts" class="hearts" aria-label="生命"></div>
+      <div class="hud-meta">
+        <span id="lvLab">Lv.1</span>
+        <div class="exp-bar" title="經驗值"><div id="expFill"></div></div>
+        <span>⭐ <span id="score">0</span></span>
+        <span id="prog">1/60</span>
+      </div>
+    </div>
+    <div class="bar"><div id="fill"></div></div>
+    <div id="stage" class="stage">
+      <canvas id="cv" width="320" height="180"></canvas>
+      <div id="itemToast" class="item-toast hide" aria-live="polite">
+        <canvas id="itemIcon" width="48" height="48"></canvas>
+        <div class="item-copy">
+          <small>新裝備</small>
+          <b id="itemName">木劍</b>
+        </div>
+      </div>
+      <div id="bossTag" class="boss-tag hide">BOSS</div>
+      <div id="lvUp" class="lv-up hide"><span>LEVEL UP!</span><b id="lvUpNum">Lv.2</b></div>
+      <div id="mapHint" class="map-hint hide">點擊跳過</div>
+    </div>
+    <div class="panel">
+      <p id="src" class="src"></p>
+      <h2 id="q"></h2>
+      <div id="opts" class="opts"></div>
+      <div id="keypad" class="keypad hide"></div>
+      <div id="fb" class="hide"></div>
+      <button id="next" class="big next hide" type="button">下一題 ➜</button>
+    </div>
+  </section>
+
+  <section id="result" class="card hide">
+    <h1 id="resultTitle">挑戰完成！</h1>
+    <div id="stars"></div>
+    <p id="final"></p>
+    <div id="gearGot" class="gear-got"></div>
+    <div id="per"></div>
+    <button id="again" class="big" type="button">🔁 再玩一次</button>
+    <button id="home2" class="big alt" type="button">🏠 返回</button>
+  </section>
+</main>
+<script src="audio.js?v=20261111v1"></script>
+<script src="battle.js?v=20261111v1"></script>
+<script src="app.js?v=20261111v1"></script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "options inside bottom panel",
+      "pass": true,
+      "detail": "{\"top\":true}"
+    },
+    {
+      "name": "options below battle stage",
+      "pass": true,
+      "detail": "stageBottom vs optsTop"
+    },
+    {
+      "name": "stage has height",
+      "pass": true,
+      "detail": "440"
+    },
+    {
+      "name": "world map shown after kill",
+      "pass": true,
+      "detail": "mapOn"
+    },
+    {
+      "name": "wrong Q3 shows citation",
+      "pass": true,
+      "detail": "❌ 答錯了！正確係：互相尊重，並保持適當界線\n💡 與異性朋友相處要互相尊重，並注意適當界線。\n📚 翻書：作業 p.9"
+    },
+    {
+      "name": "wrong Q8 shows citation",
+      "pass": true,
+      "detail": "❌ 答錯了！正確係：有助自己成長\n💡 自我認識有助成長，讓我們更清楚自己的方向。\n📚 翻書：課本 p.49"
+    },
+    {
+      "name": "at least one kill animation",
+      "pass": true,
+      "detail": "kills=10"
+    },
+    {
+      "name": "gear unlocked after kills",
+      "pass": true,
+      "detail": "皮靴,鐵甲,鐵盔,鐵盾,法杖"
+    },
+    {
+      "name": "level increased or EXP working",
+      "pass": true,
+      "detail": "lv=6 exp=20"
+    },
+    {
+      "name": "mixed correct and wrong",
+      "pass": true,
+      "detail": "ok=10 bad=2"
+    },
+    {
+      "name": "hearts decreased after wrong",
+      "pass": true,
+      "detail": "hearts=3"
+    },
+    {
+      "name": "questions loaded 60+",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "level 11 has 2+ HP",
+      "pass": true,
+      "detail": "{\"hp\":2,\"maxHp\":2,\"kind\":\"spike\",\"boss\":false,\"dead\":false}"
+    },
+    {
+      "name": "multi-HP: first hit does not always kill lv11",
+      "pass": true,
+      "detail": "{\"hp\":0,\"maxHp\":2,\"kind\":\"spike\",\"boss\":false,\"dead\":true}"
+    },
+    {
+      "name": "no console/page errors",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "states": [
+    {
+      "n": 0,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 1,
+      "hearts": 5,
+      "score": 10,
+      "monLevel": 2,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "bat",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "木劍"
+      ],
+      "level": 2,
+      "exp": 0,
+      "atk": 1,
+      "mapOn": false
+    },
+    {
+      "n": 1,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 2,
+      "hearts": 5,
+      "score": 20,
+      "monLevel": 3,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "spike",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "木劍",
+        "皮帽"
+      ],
+      "level": 2,
+      "exp": 20,
+      "atk": 1,
+      "mapOn": false
+    },
+    {
+      "n": 2,
+      "state": "idle",
+      "lastAnim": "idle",
+      "kills": 2,
+      "hearts": 4,
+      "score": 20,
+      "monLevel": 3,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "spike",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "木劍",
+        "皮帽"
+      ],
+      "level": 2,
+      "exp": 20,
+      "atk": 1,
+      "mapOn": false
+    },
+    {
+      "n": 3,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 3,
+      "hearts": 4,
+      "score": 30,
+      "monLevel": 4,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "imp",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "木劍",
+        "皮帽",
+        "木盾"
+      ],
+      "level": 3,
+      "exp": 10,
+      "atk": 1,
+      "mapOn": false
+    },
+    {
+      "n": 4,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 4,
+      "hearts": 4,
+      "score": 40,
+      "monLevel": 5,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "wolf",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "木劍",
+        "皮帽",
+        "木盾",
+        "皮靴"
+      ],
+      "level": 3,
+      "exp": 30,
+      "atk": 1,
+      "mapOn": false
+    },
+    {
+      "n": 5,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 5,
+      "hearts": 4,
+      "score": 50,
+      "monLevel": 6,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "ghost",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "皮帽",
+        "木盾",
+        "皮靴",
+        "鐵劍"
+      ],
+      "level": 4,
+      "exp": 10,
+      "atk": 2,
+      "mapOn": false
+    },
+    {
+      "n": 6,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 6,
+      "hearts": 4,
+      "score": 60,
+      "monLevel": 7,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "beetle",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "皮帽",
+        "木盾",
+        "皮靴",
+        "鐵劍",
+        "鐵甲"
+      ],
+      "level": 4,
+      "exp": 30,
+      "atk": 2,
+      "mapOn": false
+    },
+    {
+      "n": 7,
+      "state": "idle",
+      "lastAnim": "idle",
+      "kills": 6,
+      "hearts": 3,
+      "score": 60,
+      "monLevel": 7,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "beetle",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "皮帽",
+        "木盾",
+        "皮靴",
+        "鐵劍",
+        "鐵甲"
+      ],
+      "level": 4,
+      "exp": 30,
+      "atk": 2,
+      "mapOn": false
+    },
+    {
+      "n": 8,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 7,
+      "hearts": 3,
+      "score": 70,
+      "monLevel": 8,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "imp",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "木盾",
+        "皮靴",
+        "鐵劍",
+        "鐵甲",
+        "鐵盔"
+      ],
+      "level": 5,
+      "exp": 0,
+      "atk": 2,
+      "mapOn": false
+    },
+    {
+      "n": 9,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 8,
+      "hearts": 3,
+      "score": 80,
+      "monLevel": 9,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "slime",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "皮靴",
+        "鐵劍",
+        "鐵甲",
+        "鐵盔",
+        "鐵盾"
+      ],
+      "level": 5,
+      "exp": 20,
+      "atk": 2,
+      "mapOn": false
+    },
+    {
+      "n": 10,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 9,
+      "hearts": 3,
+      "score": 90,
+      "monLevel": 10,
+      "mon": {
+        "hp": 1,
+        "maxHp": 1,
+        "kind": "ogre",
+        "boss": true,
+        "dead": false
+      },
+      "gear": [
+        "皮靴",
+        "鐵甲",
+        "鐵盔",
+        "鐵盾",
+        "炎劍"
+      ],
+      "level": 5,
+      "exp": 40,
+      "atk": 2,
+      "mapOn": false
+    },
+    {
+      "n": 11,
+      "state": "monIn",
+      "lastAnim": "monIn",
+      "kills": 10,
+      "hearts": 3,
+      "score": 120,
+      "monLevel": 11,
+      "mon": {
+        "hp": 2,
+        "maxHp": 2,
+        "kind": "spike",
+        "boss": false,
+        "dead": false
+      },
+      "gear": [
+        "皮靴",
+        "鐵甲",
+        "鐵盔",
+        "鐵盾",
+        "法杖"
+      ],
+      "level": 6,
+      "exp": 20,
+      "atk": 2,
+      "mapOn": false
+    }
+  ]
+}
