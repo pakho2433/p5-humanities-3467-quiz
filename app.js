@@ -126,7 +126,7 @@
     showFb(true, q);
     $("opts").classList.add("dim");
     let res;
-    try { res = await safe(Battle.playCorrect(), 6000, () => { fixMon(); return { killed: !!(Battle.mon && Battle.mon.dead) }; }); }
+    try { res = await safe(Battle.playCorrect(), 4500, () => { fixMon(); return { killed: !!(Battle.mon && Battle.mon.dead) }; }); }
     catch (e) { console.error(e); fixMon(); res = {}; }
     syncHUD();
     if (res.killed) {
@@ -154,7 +154,7 @@
     } else {
       $("keypad").querySelectorAll("button").forEach((b) => { b.disabled = true; });
     }
-    try { await safe(Battle.playWrong(), 4000, () => { fixMon(); return {}; }); } catch (e) { console.error(e); fixMon(); }
+    try { await safe(Battle.playWrong(), 2500, () => { fixMon(); return {}; }); } catch (e) { console.error(e); fixMon(); }
     syncHUD();
     $("fill").style.width = (((i + 1) / qs.length) * 100) + "%";
     $("next").textContent = i + 1 < qs.length ? "下一題 ➜" : "看結果 🏆";
@@ -199,15 +199,16 @@
   function wait(ms) { return new Promise((r) => setTimeout(r, ms)); }
 
   async function nextAuto() {
-    if (Battle.hearts <= 0) { busy = false; result(true); return; }
+    if (Battle.hearts <= 0) { busy = false; clearSave(); result(true); return; }
     const needMap = !!(Battle.mon && Battle.mon.dead);
     const fromLv = Battle.monLevel || 1;
+    if (pendingVer && i + 1 < qs.length && saveAndReload(i + 1, needMap)) return;
     i++;
     done = false;
     if (i >= qs.length) { busy = false; result(); return; }
     if (needMap) {
       busy = true;
-      try { await safe(Battle.playMapTravel(fromLv, fromLv + 1), 8000, () => ({})); } catch (e) { console.error(e); }
+      try { await safe(Battle.playMapTravel(fromLv, fromLv + 1), 3000, () => ({})); } catch (e) { console.error(e); }
       Battle.spawnMonster(fromLv + 1);
       busy = false;
     } else if (!Battle.mon || Battle.mon.dead) {
@@ -226,6 +227,7 @@
   }
 
   function result(over) {
+    clearSave();
     if (window.AudioCtl) AudioCtl.onQuizEnd();
     show("result");
     const r = sc / Math.max(1, qs.length);
@@ -264,6 +266,7 @@
   }, 1000);
 
   async function start() {
+    clearSave(); pendingVer = pendingVer || null;
     qs = shuffle(all);
     { const cnt = [0, 0, 0, 0, 0, 0];
       qs = qs.map((q) => {
@@ -285,6 +288,80 @@
     try { if (window.AudioCtl) AudioCtl.onQuizStart().catch(() => {}); } catch (e) {}
     render();
   }
+
+  /* ---------- auto-update with seamless resume ---------- */
+  const SAVE_KEY = "quizSave:" + location.pathname;
+  const CUR_VER = window.GAME_VER || "";
+  let pendingVer = null, reloading = false;
+  function inBattle() { return !$("battle").classList.contains("hide"); }
+  function clearSave() { try { localStorage.removeItem(SAVE_KEY); } catch (e) {} }
+  function doReload(v) {
+    if (reloading) return true;
+    try { // loop guard: don't bounce more than twice to the same version within 2 min
+      const g = JSON.parse(sessionStorage.getItem("verBounce") || "{}");
+      if (g.v === v && Date.now() - g.t < 120000 && g.n >= 2) { pendingVer = null; return false; }
+      sessionStorage.setItem("verBounce", JSON.stringify({ v, t: g.v === v ? g.t : Date.now(), n: g.v === v ? (g.n || 0) + 1 : 1 }));
+    } catch (e) {}
+    reloading = true;
+    location.replace(location.pathname + "?v=" + encodeURIComponent(v) + "&t=" + Date.now());
+    return true;
+  }
+  function saveAndReload(nextI, monDead) {
+    try {
+      const m = Battle.mon;
+      const data = {
+        ts: Date.now(), qs, i: nextI, sc, st,
+        hearts: Battle.hearts, maxHearts: Battle.maxHearts, score: Battle.score, kills: Battle.kills,
+        owned: Battle.owned, hero: Battle.hero,
+        monLevel: Battle.monLevel || 1, monDead: !!(monDead || !m || m.dead), monHp: m ? m.hp : 0
+      };
+      localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+      if (localStorage.getItem(SAVE_KEY) === null) return false;
+    } catch (e) { console.error(e); return false; }
+    const prevBusy = busy, prevDone = done;
+    busy = true; done = true;
+    if (doReload(pendingVer)) return true;
+    busy = prevBusy; done = prevDone; clearSave();
+    return false;
+  }
+  function tryResume() {
+    let d = null;
+    try { d = JSON.parse(localStorage.getItem(SAVE_KEY) || "null"); } catch (e) {}
+    clearSave();
+    if (!d || !Array.isArray(d.qs) || !d.qs.length || Date.now() - d.ts > 3 * 3600 * 1000) return false;
+    if (typeof d.i !== "number" || d.i < 0 || d.i >= d.qs.length) return false;
+    try {
+      qs = d.qs; i = d.i; sc = d.sc || 0; st = d.st || {}; done = false; busy = false; typed = "";
+      show("battle");
+      Battle.init($("cv"));
+      Battle.reset();
+      Battle.hearts = d.hearts; Battle.maxHearts = d.maxHearts || 5; Battle.score = d.score || 0;
+      Battle.kills = d.kills || 0; Battle.owned = d.owned || []; if (d.hero) Battle.hero = d.hero;
+      if (d.monDead) Battle.spawnMonster((d.monLevel || 0) + 1);
+      else { Battle.spawnMonster(d.monLevel || 1); if (d.monHp > 0) { Battle.mon.hp = d.monHp; Battle.mon.shownHp = d.monHp; } }
+      Battle.syncExpHUD();
+      render();
+      const unlockBgm = () => { try { if (window.AudioCtl) AudioCtl.onQuizStart().catch(() => {}); } catch (e) {} };
+      document.addEventListener("pointerdown", unlockBgm, { once: true, passive: true });
+      return true;
+    } catch (e) { console.error(e); return false; }
+  }
+  function checkVersion() {
+    if (reloading || !CUR_VER) return;
+    fetch("version.json?t=" + Date.now(), { cache: "no-store" })
+      .then((r) => r.json())
+      .then((j) => {
+        if (!j || !j.v || j.v === CUR_VER) return;
+        pendingVer = j.v;
+        if (!inBattle()) { doReload(j.v); return; }
+        // sitting on an unanswered question with nothing animating: safe to save + reload now
+        if (!busy && !done && qs.length) saveAndReload(i, false);
+      })
+      .catch(() => {});
+  }
+  setInterval(checkVersion, 60000);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") checkVersion(); });
+  window.__checkVersion = checkVersion;
 
   function onKey(k) {
     if (k === "back") typed = typed.slice(0, -1);
@@ -339,13 +416,19 @@
     submitInput,
     start,
     next,
-    debugSetLevel(n) { Battle.spawnMonster(n); }
+    debugSetLevel(n) { Battle.spawnMonster(n); },
+    isBusy: () => busy, isDone: () => done
   };
 
   fetch("questions.json?v=20261111v3b")
     .then((r) => r.json())
     .then((data) => {
       all = data;
+      const vp = window.VER_P ? Promise.race([window.VER_P, new Promise((r) => setTimeout(() => r(null), 4000))]) : Promise.resolve(null);
+      vp.then((v) => {
+        if (v && v !== CUR_VER && !inBattle()) { pendingVer = v; if (doReload(v)) return; }
+        if (!inBattle()) tryResume();
+      });
       const note = $("placeNote");
       if (note && data.some((q) => q.placeholder)) note.classList.remove("hide");
       else if (note) note.classList.add("hide");
