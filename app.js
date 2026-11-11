@@ -140,6 +140,7 @@
     syncHUD();
     $("fill").style.width = (((i + 1) / qs.length) * 100) + "%";
     $("next").textContent = i + 1 < qs.length ? "下一題 ➜" : "看結果 🏆";
+    if (Battle.hearts <= 0) $("next").textContent = "💀 生命值用完";
     $("next").classList.remove("hide");
     done = true;
     busy = false;
@@ -177,6 +178,7 @@
   function wait(ms) { return new Promise((r) => setTimeout(r, ms)); }
 
   async function nextAuto() {
+    if (Battle.hearts <= 0) { busy = false; result(true); return; }
     const needMap = !!(Battle.mon && Battle.mon.dead);
     const fromLv = Battle.monLevel || 1;
     i++;
@@ -196,16 +198,26 @@
   function next() {
     if (busy) return;
     if (!done) return;
+    if (Battle.hearts <= 0) { result(true); return; }
     if (i + 1 >= qs.length) { result(); return; }
     nextAuto();
   }
 
-  function result() {
+  function result(over) {
     if (window.AudioCtl) AudioCtl.onQuizEnd();
     show("result");
     const r = sc / Math.max(1, qs.length);
     const n = r >= 0.9 ? 3 : r >= 0.7 ? 2 : r >= 0.4 ? 1 : 0;
     $("resultTitle").textContent = "挑戰完成！";
+    if (over) {
+      $("resultTitle").textContent = "💀 生命值用完！";
+      $("stars").textContent = "";
+      $("final").textContent = `答了 ${i + 1} / ${qs.length} 題，答對 ${sc} 題。要由第一關重新再玩過！`;
+      $("gearGot").innerHTML = ""; $("per").innerHTML = "";
+      $("again").textContent = "🔁 重新再玩";
+      return;
+    }
+    $("again").textContent = "🔁 再玩一次";
     $("stars").textContent = "★".repeat(n) + "☆".repeat(3 - n);
     $("final").textContent =
       `答對 ${sc} / ${qs.length} 題（${Math.round(r * 100)}%）　英雄 Lv.${Battle.hero.level}　擊殺 ${Battle.kills} 隻` +
