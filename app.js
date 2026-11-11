@@ -1,5 +1,19 @@
 (function () {
   const $ = (id) => document.getElementById(id);
+  function safe(p, ms, fb) {
+    return Promise.race([
+      Promise.resolve(p).catch((e) => { console.error(e); return fb(); }),
+      new Promise((r) => setTimeout(() => r(fb()), ms)),
+    ]);
+  }
+  function fixMon() {
+    try {
+      if (Battle.mon && Battle.mon.hp <= 0) Battle.mon.dead = true;
+      Battle.state = "idle"; Battle.heroMode = "idle"; Battle.pose = 0;
+      if (Battle.hideToast) Battle.hideToast();
+      if (Battle.hideLvUp) Battle.hideLvUp();
+    } catch (e) {}
+  }
   const LESSON = { 3: "應對青春期的生理變化", 4: "應對青春期的心理變化", 6: "瞭解自己和面對挑戰", 7: "理財有方" };
 
   let all = [];
@@ -109,7 +123,9 @@
   async function afterCorrect(q) {
     showFb(true, q);
     $("opts").classList.add("dim");
-    const res = await Battle.playCorrect();
+    let res;
+    try { res = await safe(Battle.playCorrect(), 6000, () => { fixMon(); return { killed: !!(Battle.mon && Battle.mon.dead) }; }); }
+    catch (e) { console.error(e); fixMon(); res = {}; }
     syncHUD();
     if (res.killed) {
       // next monster if more questions remain — spawn after advancing
@@ -136,7 +152,7 @@
     } else {
       $("keypad").querySelectorAll("button").forEach((b) => { b.disabled = true; });
     }
-    await Battle.playWrong();
+    try { await safe(Battle.playWrong(), 4000, () => { fixMon(); return {}; }); } catch (e) { console.error(e); fixMon(); }
     syncHUD();
     $("fill").style.width = (((i + 1) / qs.length) * 100) + "%";
     $("next").textContent = i + 1 < qs.length ? "下一題 ➜" : "看結果 🏆";
@@ -186,7 +202,7 @@
     if (i >= qs.length) { busy = false; result(); return; }
     if (needMap) {
       busy = true;
-      try { await Battle.playMapTravel(fromLv, fromLv + 1); } catch (e) { console.error(e); }
+      try { await safe(Battle.playMapTravel(fromLv, fromLv + 1), 8000, () => ({})); } catch (e) { console.error(e); }
       Battle.spawnMonster(fromLv + 1);
       busy = false;
     } else if (!Battle.mon || Battle.mon.dead) {
@@ -227,6 +243,17 @@
       `<div><span>第${l}課 ${LESSON[l] || ""}</span><span>${st[l][0]} / ${st[l][1]}</span></div>`
     ).join("");
   }
+
+  let busySince = 0;
+  setInterval(() => {
+    if (!busy) { busySince = 0; return; }
+    if (!busySince) { busySince = Date.now(); return; }
+    if (Date.now() - busySince > 12000) {
+      console.warn("watchdog: unstick");
+      busy = false; busySince = 0; fixMon();
+      if (done) { const n = $("next"); if (n) n.classList.remove("hide"); }
+    }
+  }, 1000);
 
   async function start() {
     qs = shuffle(all);
