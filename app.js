@@ -24,6 +24,7 @@
   let done = false;
   let busy = false;
   let typed = "";
+  let lastAct = Date.now();
 
   function show(id) {
     ["home", "battle", "result"].forEach((s) => {
@@ -69,6 +70,7 @@
   }
 
   function render() {
+    lastAct = Date.now();
     const q = qs[i];
     done = false;
     typed = "";
@@ -160,6 +162,7 @@
     $("next").classList.remove("hide");
     done = true;
     busy = false;
+    lastAct = Date.now();
   }
 
   async function pick(k) {
@@ -168,6 +171,7 @@
     if (q.type === "input") return;
     done = true;
     busy = true;
+    lastAct = Date.now();
     const ok = k === q.answer;
     const bs = $("opts").children;
     [...bs].forEach((b) => { b.disabled = true; });
@@ -184,6 +188,7 @@
     if (!typed) return;
     done = true;
     busy = true;
+    lastAct = Date.now();
     const ok = normNum(typed) === normNum(q.answerValue);
     markStats(q, ok);
     $("keypad").querySelectorAll("button").forEach((b) => { b.disabled = true; });
@@ -208,6 +213,7 @@
     } else if (!Battle.mon || Battle.mon.dead) {
       Battle.spawnMonster((Battle.monLevel || 0) + 1);
     }
+    busy = false;
     render();
   }
 
@@ -244,14 +250,16 @@
     ).join("");
   }
 
-  let busySince = 0;
+  // watchdog: only acts if nothing has progressed for 12s (no false fires during normal play)
   setInterval(() => {
-    if (!busy) { busySince = 0; return; }
-    if (!busySince) { busySince = Date.now(); return; }
-    if (Date.now() - busySince > 12000) {
+    if (!$("battle") || $("battle").classList.contains("hide")) return;
+    if (Date.now() - lastAct < 12000) return;
+    const nx = $("next");
+    if (busy || (done && nx && nx.classList.contains("hide"))) {
       console.warn("watchdog: unstick");
-      busy = false; busySince = 0; fixMon();
-      if (done) { const n = $("next"); if (n) n.classList.remove("hide"); }
+      busy = false; fixMon();
+      if (done && nx) nx.classList.remove("hide");
+      lastAct = Date.now();
     }
   }, 1000);
 
@@ -274,7 +282,7 @@
     Battle.reset();
     Battle.spawnMonster(1);
     syncHUD();
-    if (window.AudioCtl) await AudioCtl.onQuizStart();
+    try { if (window.AudioCtl) AudioCtl.onQuizStart().catch(() => {}); } catch (e) {}
     render();
   }
 
