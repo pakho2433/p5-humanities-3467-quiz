@@ -1,0 +1,107 @@
+{
+  "profile": "phone",
+  "ok": true,
+  "checks": [
+    {
+      "n": "ver chip v3",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "options below battle stage",
+      "pass": true,
+      "d": "{\"sw\":358,\"sh\":265.59375}"
+    },
+    {
+      "n": "canvas integer-scaled backing",
+      "pass": true,
+      "d": "1000x720 W=200 k=5 dpr=3"
+    },
+    {
+      "n": "imageSmoothing off",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "frame rate ~60fps",
+      "pass": true,
+      "d": "60.1 fps"
+    },
+    {
+      "n": "wrong Q3 cites page",
+      "pass": true,
+      "d": "作業 p.8"
+    },
+    {
+      "n": "wrong Q8 cites page",
+      "pass": true,
+      "d": "課本 p.56"
+    },
+    {
+      "n": "boss intro shown",
+      "pass": true,
+      "d": "ogre lv10"
+    },
+    {
+      "n": "16 questions played",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "kills happened",
+      "pass": true,
+      "d": "kills=14"
+    },
+    {
+      "n": "gear unlocked (one per slot, replaced on upgrade)",
+      "pass": true,
+      "d": "鐵盔,鐵盾,法杖,鋼靴,騎士甲"
+    },
+    {
+      "n": "levelled up",
+      "pass": true,
+      "d": "lv=7"
+    },
+    {
+      "n": "hearts lost on wrong",
+      "pass": true,
+      "d": "hearts=3"
+    },
+    {
+      "n": "boss encountered",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "map travel shown",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "multi-HP monster survives first hit",
+      "pass": true,
+      "d": "{\"hp\":2,\"maxHp\":5,\"kind\":\"dragon\",\"boss\":true,\"dead\":false}"
+    },
+    {
+      "n": "questions count 109",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "no console/page errors",
+      "pass": true,
+      "d": ""
+    }
+  ],
+  "shots": [
+    "previews/phone_home.png",
+    "previews/phone_battle_idle.png",
+    "previews/phone_kill.png",
+    "previews/phone_item_popup.png",
+    "previews/phone_levelup.png",
+    "previews/phone_map.png",
+    "previews/phone_hurt.png",
+    "previews/phone_boss.png",
+    "previews/phone_multi_hp.png"
+  ]
+}

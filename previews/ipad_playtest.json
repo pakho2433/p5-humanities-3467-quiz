@@ -1,0 +1,107 @@
+{
+  "profile": "ipad",
+  "ok": true,
+  "checks": [
+    {
+      "n": "ver chip v3",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "options below battle stage",
+      "pass": true,
+      "d": "{\"sw\":778,\"sh\":440}"
+    },
+    {
+      "n": "canvas integer-scaled backing",
+      "pass": true,
+      "d": "1524x864 W=254 k=6 dpr=2"
+    },
+    {
+      "n": "imageSmoothing off",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "frame rate ~60fps",
+      "pass": true,
+      "d": "60.4 fps"
+    },
+    {
+      "n": "wrong Q3 cites page",
+      "pass": true,
+      "d": "課本 p.56"
+    },
+    {
+      "n": "wrong Q8 cites page",
+      "pass": true,
+      "d": "課本 p.52"
+    },
+    {
+      "n": "boss intro shown",
+      "pass": true,
+      "d": "ogre lv10"
+    },
+    {
+      "n": "16 questions played",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "kills happened",
+      "pass": true,
+      "d": "kills=14"
+    },
+    {
+      "n": "gear unlocked (one per slot, replaced on upgrade)",
+      "pass": true,
+      "d": "鐵盔,鐵盾,法杖,鋼靴,騎士甲"
+    },
+    {
+      "n": "levelled up",
+      "pass": true,
+      "d": "lv=7"
+    },
+    {
+      "n": "hearts lost on wrong",
+      "pass": true,
+      "d": "hearts=3"
+    },
+    {
+      "n": "boss encountered",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "map travel shown",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "multi-HP monster survives first hit",
+      "pass": true,
+      "d": "{\"hp\":2,\"maxHp\":5,\"kind\":\"dragon\",\"boss\":true,\"dead\":false}"
+    },
+    {
+      "n": "questions count 109",
+      "pass": true,
+      "d": ""
+    },
+    {
+      "n": "no console/page errors",
+      "pass": true,
+      "d": ""
+    }
+  ],
+  "shots": [
+    "previews/ipad_home.png",
+    "previews/ipad_battle_idle.png",
+    "previews/ipad_kill.png",
+    "previews/ipad_item_popup.png",
+    "previews/ipad_levelup.png",
+    "previews/ipad_map.png",
+    "previews/ipad_hurt.png",
+    "previews/ipad_boss.png",
+    "previews/ipad_multi_hp.png"
+  ]
+}

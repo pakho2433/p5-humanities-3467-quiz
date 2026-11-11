@@ -1,0 +1,16 @@
+<!doctype html><html><body style="background:#5a7a9a;margin:0">
+<canvas id="c" width="1200" height="900" style="image-rendering:pixelated"></canvas>
+<script src="../sprites.js"></script>
+<script>
+const c=document.getElementById('c').getContext('2d');c.imageSmoothingEnabled=false;
+const S=4;let x=10,y=10,rowH=0;
+function put(sp){ if(!sp) return; if(x+sp.w*S>1190){x=10;y+=rowH+10;rowH=0;} c.drawImage(sp.c,x,y,sp.w*S,sp.h*S); x+=sp.w*S+10; rowH=Math.max(rowH,sp.h*S);}
+['slime','bat','spike','imp','wolf','ghost','beetle','ogre','kingSlime','fireOgre','dragon','darkKnight'].forEach(k=>{const f=Sprites.monFrames(k); put(f.frames[0]); put(f.frames[1]); if(f.wings) put(f.wings[0]);});
+x=10;y+=rowH+10;rowH=0;
+const gears=[{},{head:'leather',boots:'leather'},{head:'iron',body:'iron',boots:'steel'},{head:'crown',body:'knight',boots:'crystal'},{body:'flame',head:'iron'}];
+gears.forEach(g=>{g=Object.assign({weapon:'none',head:'none',shield:'none',boots:'none',body:'none',cape:'none'},g);['idle','run0','run1','run2','hurt'].forEach(l=>put(Sprites.heroBody(g,l,0,0)));});
+['wood','iron','fire','staff','thunder'].forEach(k=>put(Sprites.weaponSprite(k)));
+['wood','iron','dragon'].forEach(k=>put(Sprites.shieldSprite(k)));
+put(Sprites.capeSprite(0));put(Sprites.capeSprite(2));
+Sprites.coinFrames().forEach(put);put(Sprites.textSprite('-12','#ffe14d','#fff'));put(Sprites.textSprite('+10 EXP','#7af0a0'));
+</script></body></html>

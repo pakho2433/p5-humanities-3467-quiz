@@ -284,7 +284,7 @@
     debugSetLevel(n) { Battle.spawnMonster(n); }
   };
 
-  fetch("questions.json?v=20261111v2")
+  fetch("questions.json?v=20261111v3")
     .then((r) => r.json())
     .then((data) => {
       all = data;

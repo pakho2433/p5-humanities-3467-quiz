@@ -217,3 +217,10 @@ h1{margin:.1em 0;color:#9b2226;font-size:clamp(26px,5.4vw,36px);text-shadow:2px 
   padding:4px 10px;border-radius:999px;border:2px solid #ffd166;pointer-events:none;
   letter-spacing:1px;
 }
+
+/* v3 */
+#score{display:inline-block}
+.bump{animation:hudBump .3s ease}
+@keyframes hudBump{0%{transform:scale(1.4);filter:brightness(1.9) drop-shadow(0 0 4px #ffd166)}100%{transform:scale(1);filter:none}}
+.stage{background:#05030a}
+.stage canvas#cv{background:#05030a}
