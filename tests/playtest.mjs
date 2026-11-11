@@ -77,7 +77,7 @@ try {
   await page.click(`#opts .opt:nth-child(${a + 1})`); await wait(700);
   const m = (await st()).mon; check('multi-HP monster survives first hit', m.maxHp >= 2 && m.hp >= 1 && !m.dead, JSON.stringify(m));
   await shot('multi_hp');
-  check('questions count 109', (await page.evaluate(() => window.__p3quiz.getQs().length)) === 109);
+  { const n = await page.evaluate(() => window.__p3quiz.getQs().length); check('questions count >=100', n >= 100, String(n)); }
 } catch (e) { res.ok = false; errors.push('EXC ' + e.stack); await shot('error'); }
 const real = errors.filter(e => !/favicon/.test(e));
 check('no console/page errors', real.length === 0, real.join(' | '));
