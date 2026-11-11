@@ -218,6 +218,17 @@
 
   async function start() {
     qs = shuffle(all);
+    { const cnt = [0, 0, 0, 0, 0, 0];
+      qs = qs.map((q) => {
+        if (q.type === "input" || !q.options || q.options.length < 2) return q;
+        const n = q.options.length;
+        let min = Infinity, cand = [];
+        for (let p = 0; p < n; p++) { if (cnt[p] < min) { min = cnt[p]; cand = [p]; } else if (cnt[p] === min) cand.push(p); }
+        const pos = cand[Math.floor(Math.random() * cand.length)]; cnt[pos]++;
+        const wrong = shuffle(q.options.filter((_, k) => k !== q.answer));
+        const opts = wrong.slice(); opts.splice(pos, 0, q.options[q.answer]);
+        return Object.assign({}, q, { options: opts, answer: pos });
+      }); }
     i = 0; sc = 0; st = {}; done = false; busy = false; typed = "";
     show("battle");
     Battle.init($("cv"));
@@ -284,7 +295,7 @@
     debugSetLevel(n) { Battle.spawnMonster(n); }
   };
 
-  fetch("questions.json?v=20261111v3")
+  fetch("questions.json?v=20261111v3b")
     .then((r) => r.json())
     .then((data) => {
       all = data;
